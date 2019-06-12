@@ -1,23 +1,22 @@
+package com.mathclock.arne.mathclock;
 
-        package com.mathclock.arne.mathclock;
+ import android.app.TimePickerDialog;
+ import android.support.v7.app.AppCompatActivity;
+ import android.os.Bundle;
+ import android.util.Log;
+ import android.view.Gravity;
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.Button;
+ import android.widget.LinearLayout;
+ import android.widget.RadioButton;
+ import android.widget.TextView;
+ import android.widget.TimePicker;
 
-        import android.app.TimePickerDialog;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.util.Log;
-        import android.view.Gravity;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.Button;
-        import android.widget.LinearLayout;
-        import android.widget.RadioButton;
-        import android.widget.TextView;
-        import android.widget.TimePicker;
+ import org.json.JSONException;
 
-        import org.json.JSONException;
-
-        import java.util.Arrays;
-        import java.util.Calendar;
+ import java.util.Arrays;
+ import java.util.Calendar;
 
 public class AddActivity extends AppCompatActivity {
     public TimePickerDialog tpd;
