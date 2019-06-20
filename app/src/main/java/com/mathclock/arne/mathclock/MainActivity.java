@@ -15,16 +15,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Iterator;
+import java.util.concurrent.Callable;
+
 
 public class MainActivity extends AppCompatActivity {
-    ViewGroup viewgroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +55,72 @@ public class MainActivity extends AppCompatActivity {
         );
 
     }
-    private void init() throws JSONException {
-        readData();
-        LinearLayout linearLayout =  findViewById(R.id.alarmContainer);
-        LayoutInflater layoutInfralte = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View[] view = {layoutInfralte.inflate(R.layout.alarm_dummy, null)};
-        linearLayout.addView(view[0]);
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            init();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
-    private void readData() throws JSONException {
+
+    public void init() throws JSONException {
         FileHandler fh = new FileHandler();
-        JSONObject mainObject = new JSONObject(fh.readFile());
-        Log.d("Json String", mainObject.getString("times"));
+        JsonHandler jh= new JsonHandler();
+        createAlarms(jh.create(fh.readFile()));
+
+    }
+    private void createAlarms(JSONObject data) throws JSONException {
+        LinearLayout linearLayout =  findViewById(R.id.alarmContainer);
+        linearLayout.removeAllViews();
+        LayoutInflater layoutInfralte = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        Iterator<String> iter = data.getJSONObject("times").keys();
+        /*
+        while (iter.hasNext()) {
+            String key = iter.next();
+            try {
+                JSONObject value =  data.getJSONObject("times").getJSONObject(key);
+                final View[] view = {layoutInfralte.inflate(R.layout.alarm_dummy, null)};
+                ViewGroup viewgroup = (ViewGroup) view[0];
+                ((Switch) viewgroup.getChildAt(0)).setChecked(value.get("status").toString().contentEquals("on"));//switch
+                ((Switch) viewgroup.getChildAt(0)).setOnCheckedChangeListener(new OnChangeHandler(key));
+                ((RelativeLayout) viewgroup.getChildAt(1)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("test", "onClick: test");
+                    }
+                });//Relativ layout
+                ((TextView) viewgroup.getChildAt(2)).setText(value.get("time").toString());//uhrzeit
+                ((TextView) viewgroup.getChildAt(3)).setText(getWeekdays(value.get("weekdays").toString()));//Wochentage
+                ((ImageButton) viewgroup.getChildAt(5)).setOnClickListener(new OnClickHandler(key,new Callable<Void>() {
+                    public Void call() throws JSONException {
+                        init();
+                        return null;
+                    }}));//DeletButton
+
+                linearLayout.addView(viewgroup);
+            } catch (JSONException e) {
+                Log.d("err",e.toString());
+            }
+        }*/
+
+    }
+    private String getWeekdays(String data)
+    {
+        String [] weekdays={"Mo","Di","Mi","Do","Fr","Sa","So"};
+        String value="";
+        for(int i=0;i<weekdays.length;i++)
+        {
+            if(data.split(",")[i].contains("true")) {
+                value+=weekdays[i]+",";
+            }
+        }
+        value=value.substring(0,value.length()-1);
+        Log.d("test",value);
+        return value;
     }
 
     public boolean permissionChecker() {

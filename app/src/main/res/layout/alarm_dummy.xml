@@ -1,13 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/alarm_dummy"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/alarmsdummy"
+    android:minHeight="65dp"
+    android:layout_height="65dp">
 
-    <TextView
-        android:id="@+id/alarmTime"
+
+    <Switch
+        android:id="@+id/switchon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignParentEnd="true"
+        android:checked="false"
+        tools:checked="true" />
+
+
+    <TextView
+        android:id="@+id/alarmsdays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:text="TextView"
-        android:textSize="24sp" />
+        android:textColor="@android:color/black"
+        android:textSize="40sp" />
+
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alarmstime"
+        android:textSize="15sp"
+        android:layout_below="@+id/alarmsdays"
+        android:layout_alignParentStart="true"
+        android:textColor="@android:color/black"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="131dp"
+        android:layout_toStartOf="@+id/imageButton"
+        android:background="@android:color/transparent"
+        android:minHeight="65dp" />
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_delete"
+        android:id="@+id/imageButton"
+        android:background="@android:drawable/ic_menu_delete"
+        android:layout_marginEnd="15dp"
+        android:layout_alignTop="@+id/switchon"
+        android:layout_toStartOf="@+id/switchon" />
+
+
 </RelativeLayout>

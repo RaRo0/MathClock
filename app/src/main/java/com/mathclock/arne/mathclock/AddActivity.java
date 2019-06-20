@@ -13,8 +13,10 @@ package com.mathclock.arne.mathclock;
  import android.widget.TextView;
  import android.widget.TimePicker;
 
+ import org.json.JSONArray;
  import org.json.JSONException;
 
+ import java.io.IOException;
  import java.util.Arrays;
  import java.util.Calendar;
 
@@ -42,7 +44,7 @@ public class AddActivity extends AppCompatActivity {
         Calendar mcurrentTime = Calendar.getInstance();
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mcurrentTime.get(Calendar.MINUTE);
-        tc.setText(String.format("%02d", hour)+":"+String.format("%02d", hour));
+        tc.setText(String.format("%02d", hour)+":"+String.format("%02d", minute));
 
 
         tc.setOnClickListener(new View.OnClickListener() {
@@ -100,15 +102,22 @@ public class AddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FileHandler fh = new FileHandler();
                 JsonHandler jh = new JsonHandler();
-                String test [][]=new String[2][2];
-                test[0][0]="key";
-                test[0][1]="value";
-                test[1][0]="key";
-                test[1][1]="value2";
+                Object test [][]=new Object[4][2];
+                test[0][0]="time";
+                test[0][1]=tc.getText();
+                test[1][0]="weekdays";
+                test[1][1]=Arrays.toString(weekdaysBool);
+                test[2][0]="level";
+                test[2][1]="hard";
+                test[3][0]="status";
+                test[3][1]="on";
                 try {
-                    jh.add(jh.create(fh.readFile()),test).toString();
+                    fh.writeFile(jh.add(jh.create(fh.readFile()),test).toString());
+                    finish();
                     //Log.d("arr", );
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
 
